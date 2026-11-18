@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minha Biblioteca</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">📚 Minha Biblioteca</a>
+            <span class="text-white small">Gerenciamento de materiais</span>
+        </div>
+    </header>
+
+    <main class="container py-4">
+        <div id="mensagens" class="mb-3" aria-live="polite"></div>
+
+        <section class="mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <div>
+                    <h1 class="h3 mb-1">Dashboard</h1>
+                    <p class="text-secondary mb-0">Resumo dos materiais cadastrados</p>
+                </div>
+
+                <button class="btn btn-outline-primary mt-2 mt-md-0" id="btnAtualizar" type="button">
+                    ↻ Atualizar dados
+                </button>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-6 col-lg-3">
+                    <div class="card resumo-card bg-primary text-white">
+                        <div class="card-body">
+                            <div>Total de materiais</div>
+                            <div class="numero" id="totalMateriais">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="card resumo-card bg-success text-white">
+                        <div class="card-body">
+                            <div>Livros</div>
+                            <div class="numero" id="totalLivros">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="card resumo-card bg-warning text-dark">
+                        <div class="card-body">
+                            <div>Revistas</div>
+                            <div class="numero" id="totalRevistas">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="card resumo-card bg-dark text-white">
+                        <div class="card-body">
+                            <div>Livros que permitem empréstimo</div>
+                            <div class="numero" id="totalEmprestimos">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="form-text mt-2">
+                *O número representa a quantidade de livros cadastrados, não empréstimos ativos.
+            </p>
+        </section>
+
+        <section class="card shadow-sm mb-4">
+            <div class="card-header fw-semibold">Listagem de materiais</div>
+
+            <div class="card-body">
+                <div class="row g-2 mb-3">
+                    <div class="col-md-8">
+                        <label class="form-label" for="filtro">Buscar material</label>
+                        <input class="form-control" id="filtro" type="search"
+                               placeholder="Filtrar por título, autor ou tipo...">
+                    </div>
+
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-secondary w-100"
+                                id="btnLimparFiltro" type="button">
+                            Limpar filtro
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Ano</th>
+                                <th>Tipo</th>
+                                <th>Autor</th>
+                                <th>Páginas</th>
+                                <th>Edição</th>
+                                <th>Mês</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tabelaMateriais">
+                            <tr>
+                                <td colspan="9" class="text-center text-secondary">
+                                    Carregando materiais...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="card shadow-sm mb-4" id="secaoFormulario">
+            <div class="card-header fw-semibold" id="tituloFormulario">
+                Cadastrar material
+            </div>
+
+            <div class="card-body">
+                <form id="formMaterial">
+                    <input type="hidden" id="materialId">
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="tipoMaterial" class="form-label">Tipo de material</label>
+                            <select id="tipoMaterial" class="form-select" required>
+                                <option value="Livro">Livro</option>
+                                <option value="Revista">Revista</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-8">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input id="titulo" class="form-control" maxlength="200" autocomplete="off" required>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="anoPublicacao" class="form-label">Ano de publicação</label>
+                            <input id="anoPublicacao" type="number" min="0"
+                                   class="form-control" required>
+                        </div>
+
+                        <div class="col-md-4 campo-livro">
+                            <label for="autor" class="form-label">Autor</label>
+                            <input id="autor" class="form-control" maxlength="150" autocomplete="off">
+                        </div>
+
+                        <div class="col-md-4 campo-livro">
+                            <label for="paginas" class="form-label">Número de páginas</label>
+                            <input id="paginas" type="number" min="1" class="form-control">
+                        </div>
+
+                        <div class="col-md-4 campo-revista d-none">
+                            <label for="edicao" class="form-label">Edição</label>
+                            <input id="edicao" type="number" min="1" class="form-control">
+                        </div>
+
+                        <div class="col-md-4 campo-revista d-none">
+                            <label for="mesPublicacao" class="form-label">
+                                Mês de publicação (1 a 12)
+                            </label>
+                            <input id="mesPublicacao" type="number" min="1" max="12"
+                                   class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2 flex-wrap">
+                        <button class="btn btn-success" type="submit" id="btnSalvar">
+                            Cadastrar
+                        </button>
+
+                        <button class="btn btn-outline-secondary" type="button"
+                                id="btnCancelarEdicao">
+                            Limpar formulário
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="card shadow-sm">
+            <div class="card-header fw-semibold">Consulta e detalhes</div>
+
+            <div class="card-body">
+                <form id="formConsulta" class="row g-2 align-items-end">
+                    <div class="col-sm-4">
+                        <label for="consultaId" class="form-label">ID do material</label>
+                        <input id="consultaId" type="number" min="1"
+                               class="form-control" required>
+                    </div>
+
+                    <div class="col-sm-auto">
+                        <button class="btn btn-primary" type="submit">
+                            Consultar material
+                        </button>
+                    </div>
+                </form>
+
+                <div id="resultadoConsulta" class="mt-3"></div>
+            </div>
+        </section>
+
+        <p class="text-secondary small mt-4">
+            Os dados desta API são armazenados em memória e reiniciam quando a API é encerrada.
+        </p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

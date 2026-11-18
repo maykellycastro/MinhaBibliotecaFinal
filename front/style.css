@@ -1,0 +1,73 @@
+body {
+    background: #f4f6f9;
+}
+
+.navbar-brand {
+    letter-spacing: .2px;
+}
+
+.resumo-card {
+    border: 0;
+    border-radius: 14px;
+    min-height: 112px;
+}
+
+.numero {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: .35rem;
+}
+
+.card {
+    border: 0;
+    border-radius: 12px;
+}
+
+.card-header {
+    background: #fff;
+    padding: 1rem 1.25rem;
+}
+
+.table {
+    background-color: white;
+    vertical-align: middle;
+}
+
+.table th {
+    white-space: nowrap;
+}
+
+.table thead th,
+.table tbody td {
+    font-size: 14px;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f5ff;
+}
+
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+}
+
+.btn-sm {
+    white-space: nowrap;
+}
+
+.table .btn {
+    margin: 2px;
+}
+
+@media (max-width: 576px) {
+    .navbar .container {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .numero {
+        font-size: 1.6rem;
+    }
+}
